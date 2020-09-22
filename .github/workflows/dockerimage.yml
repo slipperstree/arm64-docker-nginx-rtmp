@@ -12,8 +12,10 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag nginx-rtmp:latest
-        docker tag nginx-rtmp alfg/nginx-rtmp:latest
+        docker pull multiarch/qemu-user-static:register
+        docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        docker build . --file Dockerfile --tag arm64-nginx-rtmp:latest
+        docker tag arm64-nginx-rtmp alfg/arm64-nginx-rtmp:latest
         # docker login docker.pkg.github.com --username alfg --password ${{ secrets.GITHUB_TOKEN }}
         # docker tag nginx-rtmp docker.pkg.github.com/alfg/docker-nginx-rtmp/nginx-rtmp:latest
         # push docker.pkg.github.com/alfg/docker-openencoder/nginx-rtmp:latest
